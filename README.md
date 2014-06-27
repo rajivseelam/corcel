@@ -94,6 +94,8 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
 
 I'm already working with Wordpress comments integration.
 
+Fetch tags and categories.
+
 ## Licence
 
 Corcel is licensed under the MIT license.
