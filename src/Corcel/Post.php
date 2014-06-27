@@ -14,7 +14,7 @@ class Post extends Eloquent
 {
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
-    protected $with = array('meta', 'comments');
+    protected $with = array('meta', 'comments', 'postterms');
     protected $postType = 'post';
 
     /**
@@ -36,6 +36,54 @@ class Post extends Eloquent
     {
         return $this->hasMany('Corcel\Comment', 'comment_post_ID');
     }
+
+    /**
+     * TermRelationship relationship
+     * 
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function postterms()
+    {
+        return $this->hasMany('Corcel\TermRelationship','object_id','ID');
+    }
+
+    /**
+     * Tags for this post
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     **/
+    public function tags()
+    {
+        $new = $this->postterms->filter(function($term)
+                {
+                    return $term->termtaxonomy->taxonomy == 'post_tag';
+                });
+
+        return  $new->map(function($term)
+                {
+                    return $term->termtaxonomy->term; 
+                });
+    }
+
+
+    /**
+     * Categories for this post
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     **/
+    public function categories()
+    {
+        $new = $this->postterms->filter(function($term)
+                {
+                    return $term->termtaxonomy->taxonomy == 'category';
+                });
+
+        return  $new->map(function($term)
+                {
+                    return $term->termtaxonomy->term; 
+                });
+    }
+    
 
     /**
      * Overriding newQuery() to the custom PostBuilder with some intereting methods
