@@ -1,14 +1,14 @@
 {
-    "name": "jgrossi/corcel",
-    "replace": { "juniorgrossi/corcel": "self.version" },
+    "name": "rajivseelam/corcel",
+    "replace": { "rajivseelam/corcel": "self.version" },
     "description": "Wrappers to collect data from Wordpress databases",
-    "homepage": "http://github.com/jgrossi/corcel",
+    "homepage": "http://github.com/rajivseelam/corcel",
     "license": "MIT",
     "authors": [
         {
-            "name": "Junior Grossi",
-            "email": "me@juniorgrossi.com",
-            "homepage": "http://www.juniorgrossi.com"
+            "name": "Rajiv Seelam",
+            "email": "rajivs.iitkgp@gmail.com",
+            "homepage": "http://rjv.im"
         }
     ],
     "require": {
