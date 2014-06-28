@@ -17,6 +17,18 @@ class Post extends Eloquent
     protected $with = array('meta', 'comments', 'postterms');
     protected $postType = 'post';
 
+
+    /**
+     * Get only those posts which has manually filled excerpts
+     * 
+     * @param  [type] $query [description]
+     * @return Query
+     */
+    public function scopeExcerpt($query)
+    {
+        return $query->where('post_excerpt', '<>', '');
+    }
+
     /**
      * Meta data relationship
      * 
