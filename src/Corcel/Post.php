@@ -28,6 +28,17 @@ class Post extends Eloquent
     }
 
     /**
+     * Get thumbnail url
+     * @param  string $size 'thumbnail','medium','large'
+     * @return String
+     */
+    public function thumbnail_url($size='thumbnail')
+    {
+        return (is_array($src_array = wp_get_attachment_image_src($this->meta->_thumbnail_id, $size))) ?
+            $src_array[0] : '';
+    }
+
+    /**
      * Comments relationship
      * 
      * @return Illuminate\Database\Eloquent\Collection
