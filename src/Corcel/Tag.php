@@ -26,7 +26,8 @@ class Tag extends Term
 
         $builder
         ->leftJoin('wp_term_taxonomy','wp_terms.term_id','=','wp_term_taxonomy.term_id')
-        ->where('wp_term_taxonomy.taxonomy','=','post_tag');
+        ->where('wp_term_taxonomy.taxonomy','=','post_tag')
+        ->select('wp_terms.*');
 
         if ($excludeDeleted and $this->softDelete) {
             $builder->whereNull($this->getQualifiedDeletedAtColumn());
