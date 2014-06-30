@@ -22,18 +22,7 @@ class Term extends Eloquent
      */
     public function taxonomy()
     {
-    	return $this->belongsTo('Corcel\TermTaxonomy','term_id','term_id');
-    }
-
-    /**
-     * Term relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     * 
-     **/
-    public function termrelationships()
-    {
-        return $this->hasManyThrough('Corcel\TermRelationship','Corcel\TermTaxonomy');
+        return $this->belongsTo('Corcel\TermTaxonomy','term_id','term_id');
     }
 
     /**
@@ -44,7 +33,9 @@ class Term extends Eloquent
      **/
     public function posts()
     {
-        return $this->termrelationships->map(function($relationship)
+        $termrelationships = $this->taxonomy->relationships;
+
+        return $termrelationships->map(function($relationship)
                 {
                    return $relationship->post; 
                 });
