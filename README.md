@@ -1,7 +1,17 @@
 Wordpress Corcel
 ================
 
+This package helps you integrate wordpress with your laravel installation.
+
+Let's say you dropped your wordpress at *public/wordpress* and http://xyz.com/wordpress open wordpress blog. But, may be, may be for some crazy reason you want use your Laravel routes and controllers to show off the blog, let's say at http://xyz.com/blog! This way you can control the look, add blogs to any other pages, access that database all the while using wordpress admin.
+
+Of course you can use Raw DB Statements to do this! But, What's fun in that! Corcel gives you Eloquent Classes to do that!
+
 *Corcel is under development.*
+
+Credit goes to Junior Grossi for starting this!
+
+I have extended some of the functionality. 
 
 --
 
@@ -17,14 +27,16 @@ To install Corcel just create a `composer.json` file and add:
         "rajivseelam/corcel": "dev-master"
     },
 
-Include the following in your public/index.php
+Include the following in your public/index.php (So that we can WP functions)
 
     define('WP_USE_THEMES', false);
     require __DIR__.'/wordpress/wp-blog-header.php';
 
 After that run `composer install` and wait.
 
-## Usage
+## Connecting to DB
+
+You needn't do this if you are using WP along with Laravel.
 
 First you must include the Composer `autoload` file.
 
@@ -47,6 +59,8 @@ You can specify all Eloquent params, but some are default (but you can override 
     'collation' => 'utf8_unicode_ci',
     'prefix'    => '',
 
+## Usage
+
 ### Posts
 
     // All published posts
@@ -54,15 +68,49 @@ You can specify all Eloquent params, but some are default (but you can override 
     $posts = Post::status('publish')->get();
 
     // A specific post
-    $post = Post::find(31);
+    $post = Corcel\Post::find(31);
     echo $post->post_title;
+    
+    // A specific post by slug
+    $post = Corcel\Post::slug($slug)->first();
 
 You can retrieve meta data from posts too.
 
     // Get a custom meta value (like 'link' or whatever) from a post (any type)
-    $post = Post::find(31);
+    $post = Corcel\Post::find(31);
     echo $post->meta->link; // OR
     echo $post->link;
+    
+    //Categories or Tags of a post
+    $post->categories(); 
+    
+    $post->tags();
+    
+    //Get thumbnail url
+    $post->thumbnail_url();
+    
+    //Get the large version
+    $post->thumbnail_url('large');
+    
+    //Find posts under a category
+    
+    $category = Corcel\Category::where('slug',$slug)->first();
+
+    $posts = $category->posts();
+    
+        
+    //Find posts under a tag
+    
+    $tag = Corcel\Tag::where('slug',$slug)->first();
+
+    $posts = $tag->posts();
+
+### Categories and Tags
+
+    // Get all categories
+    
+    $categories = Corcel\Category::all();
+    
 
 ### Custom Post Type
 
@@ -95,11 +143,9 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
 
-## TODO
+### More
 
-I'm already working with Wordpress comments integration.
-
-Fetch tags and categories.
+Dig through the code to find more!
 
 ## Licence
 
